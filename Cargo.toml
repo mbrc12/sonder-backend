@@ -7,8 +7,15 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.79"
-axum = "0.7.4"
 
+axum = "0.7.4"
+dotenvy = "0.15.7"
+env_logger = "0.11.0"
+log = "0.4.20"
+sqlx = { version = "0.7.3", features = ["sqlite", "time", "runtime-tokio"] }
+time = "0.3.31"
+tower = "0.4.13"
+tower-sessions = "0.9.1"
 
 [dependencies.tokio]
 version = "1.35.1"
@@ -16,3 +23,11 @@ features = [
     "macros",
     "rt-multi-thread"
 ]
+
+[[bin]]
+name = "main"
+path = "src/main.rs"
+
+[[bin]]
+name = "spam"
+path = "src/spam.rs"
