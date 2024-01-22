@@ -1,9 +1,9 @@
 use std::time::{SystemTime, UNIX_EPOCH};
 
-use axum::{response::IntoResponse, extract::State};
+use axum::{extract::State, response::IntoResponse};
 use sqlx::FromRow;
 
-use crate::global_types::DbPool;
+use crate::global_types::{AppState, DbPool};
 
 #[allow(unused)]
 #[derive(Debug, FromRow)]
@@ -36,8 +36,8 @@ async fn greetings_err(pool: DbPool) -> anyhow::Result<String> {
 }
 
 // Just a basic greeting.
-pub async fn greetings(State(pool): State<DbPool>) -> impl IntoResponse {
-    let value = greetings_err(pool).await;
+pub async fn greetings(State(AppState { db_pool, .. }): State<AppState>) -> impl IntoResponse {
+    let value = greetings_err(db_pool).await;
     match value {
         Err(err) => format!("Errored! {:?}", err),
         Ok(resp) => resp,
